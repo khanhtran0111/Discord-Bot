@@ -224,4 +224,22 @@ class NoteCog(commands.Cog):
         if channel:
             await channel.send(f"**Reminder**: {note}")
 
+    @commands.command(name="deleteallnotes", help="Delete all user's notes.")
+    async def delete_all_notes(self, ctx):
+        '''
+        Usage
+        ----- 
+        Delete all user's notes.
 
+        Parameters
+        ----------
+        ctx (discord.ext.commands.Context): The context in which the command was invoked.
+        '''
+        user_id = str(ctx.author.id)
+        if not self.user_notes[user_id]:
+            await ctx.send("**No notes available**")
+            return
+
+        self.user_notes[user_id] = []
+        await self.save_notes()
+        await ctx.send(f"**All {ctx.author.mention}'s notes deleted**.")

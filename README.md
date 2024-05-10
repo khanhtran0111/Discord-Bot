@@ -27,6 +27,7 @@ This function helps users to take notes, view notes, set reminders, and delete n
 + viewnotes: View all notes, and you can mark them as completed.
 + deletenote: Delete a specific note from the note queue.
 + settime: Set a reminder for a specific note.
++ deleteallnotes: Delete all user's notes.
 + Updating...
 
 ### Formula 1
