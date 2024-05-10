@@ -47,3 +47,58 @@ class F1Cog(commands.Cog):
                 await ctx.send("**No upcoming races found for the current season.**")
         else:
             await ctx.send("**No race data found for the current season.**")
+
+    @commands.command(name ="standings", help ="Get the current driver standings")
+    async def standings(self, ctx):
+        response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
+        data = response.json()
+
+        if response.status_code == 200 and data['MRData']['StandingsTable']['StandingsLists']:
+            standings = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
+            embed = discord.Embed(title="Current Driver Standings", color=0x00ff00)
+
+            for standing in standings:
+                driver = standing['Driver']
+                embed.add_field(name=f"{standing['position']}. {driver['givenName']} {driver['familyName']}", value=f"Points: {standing['points']}\nWins: {standing['wins']}", inline=False)
+
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("**No driver standings found for the current season.**")
+
+    @commands.command(name ="constructor", help ="Get the current constructor standings")
+    async def constructor(self, ctx):
+        response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
+        data = response.json()
+
+        if response.status_code == 200 and data['MRData']['StandingsTable']['StandingsLists']:
+            standings = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']
+            embed = discord.Embed(title="Current Constructor Standings", color=0x00ff00)
+
+            for standing in standings:
+                constructor = standing['Constructor']
+                embed.add_field(name=f"{standing['position']}. {constructor['name']}", value=f"Points: {standing['points']}\nWins: {standing['wins']}", inline=False)
+
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("**No constructor standings found for the current season.**")
+
+    @commands.command(name ="search", help = "search information about a driver in a specific season")
+    async def search(self, ctx, name: str, season: str):
+        response = requests.get(f'http://ergast.com/api/f1/{season}/drivers/{name}/driverStandings.json')
+        data = response.json()
+
+        if data['MRData']['StandingsTable']['StandingsLists']:
+            standings = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][0]
+            driver = standings['Driver']
+            constructor = standings['Constructors'][0]
+            wins = standings['wins']
+            points = standings['points']
+
+            embed = discord.Embed(title=f"{driver['givenName']} {driver['familyName']}", description=f"Season: {season}", color=0x00ff00)
+            embed.add_field(name="Team", value=constructor['name'], inline=False)
+            embed.add_field(name="Wins", value=wins, inline=True)
+            embed.add_field(name="Points", value=points, inline=True)
+
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send(f"No data found for driver {name} in season {season}")
