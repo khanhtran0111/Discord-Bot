@@ -30,6 +30,11 @@ This function helps users to take notes, view notes, set reminders, and delete n
 + deleteallnotes: Delete all user's notes.
 + Updating...
 
+### Weather
+This function shows user informations about weather.
++ weather: Get the weather forecast for the next week for a specific city.
++ compare: Compare the temperature forecast for the next week between two cities.
+
 ### Formula 1
 
 This function helps users search for information about any category in Formula 1. (Forza Ferrari)
