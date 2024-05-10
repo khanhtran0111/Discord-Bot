@@ -4,7 +4,13 @@ Hi, this is a template Discord bot using Python.
 
 To use this bot, you have to go to the [Discord Developer Portal](https://discord.com/developers/applications), create a new Bot, and get the Token code.
 
-Then, go to env.py in the **config** file, change `YOUR_TOKEN` to your Bot's token. After that step, you can run main.py and enjoy!
+Then, go to `env.py` in the **config** file, change `YOUR_TOKEN` to your Bot's token. After that step, you can run main.py and enjoy!
+
+You can change command prefix to whatever you want!
+```
+BOT_AUTHORIZE_TOKEN="YOUR_TOKEN"
+BOT_COMMAND_PREFIX="!"
+```
 
 You can add it to your community server or your own server to use it.
 
