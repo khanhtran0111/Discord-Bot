@@ -6,6 +6,9 @@ To use this bot, you have to go to the [Discord Developer Portal](https://discor
 
 Then, go to `env.py` in the **config** file, change `YOUR_TOKEN` to your Bot's token. After that step, you can run `main.py` and enjoy!
 
+Beside, to use weather commands, you should have your own API key.
+In this code, i use API key from [OpenWeather](https://openweathermap.org/), create your account and get API key. Then replace it in `weather.py`.
+
 You can change command prefix to whatever you want!
 ```
 BOT_AUTHORIZE_TOKEN="YOUR_TOKEN"
@@ -19,6 +22,8 @@ You can add it to your community server or your own server to use it.
 My bot has some functions to support users in the server.
 
 I'm updating my code every month, so maybe you'll see some new functions 🤔
+
+To show all commands, `!help` will help you to do that.
 
 ### Note
 
