@@ -2,11 +2,14 @@ import requests
 
 from bs4 import BeautifulSoup
 
-city = input("enter city name:")
+city = input("enter city name: ")
+country = input("enter conutry name: ")
 
-city_formatted = city.lower().replace(" ", "-")
+city_formatted = city.lower().replace(" ", "")
+country_formatted = country.lower().replace(" ", "")
 
-url = f"https://www.timeanddate.com/weather/usa/{city_formatted}"
+url = f"https://www.timeanddate.com/weather/{country_formatted}/{city_formatted}"
+
 
 response = requests.get(url)
 
