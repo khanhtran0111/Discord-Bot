@@ -3,6 +3,8 @@ from discord.ext import commands
 import aiohttp
 import matplotlib.pyplot as plt
 from datetime import datetime
+from bs4 import BeautifulSoup
+import requests
 
 API_KEY = "07dadcadae720c1741c90981cccee192"
 
@@ -43,7 +45,33 @@ class WeatherCog(commands.Cog):
         plt.savefig('temperature.png')
 
     @commands.command(name="weather", help="Get the weather forecast for the next week for a specific city.")
-    async def weather(self, ctx, *, city):
+    async def weather(self, ctx, *, city, country):
+
+        city_formatted = city.lower().replace(" ", "")
+        country_formatted = country.lower().replace(" ", "")
+
+        url = f"https://www.timeanddate.com/weather/{country_formatted}/{city_formatted}"
+
+
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        try:
+            temperature = soup.find("div", class_ = "h2").get_text(strip=True)
+            description = soup.find("div", class_ = "h2").find_next("p").get_text(strip=True)
+
+            #print(f"Weather in {city}:")
+            #print(f"Temperature: {temperature}")
+            #print(f"Condition: {description}")
+
+            await ctx.send(f"Weather in {city}:")
+            await ctx.send(f"Temperature: {temperature}")
+            await ctx.send(f"Condition: {description}")
+
+        except AttributeError:
+            await ctx.send("Please check the city name and try again!")
+
         weather_data = await self.get_weather_data(city)
         if 'list' in weather_data:
             await self.plot_temperature_graph(weather_data)
