@@ -44,34 +44,10 @@ class WeatherCog(commands.Cog):
         plt.grid(True)
         plt.savefig('temperature.png')
 
-    @commands.command(name="weather", help="Get the weather forecast for the next week for a specific city.")
-    async def weather(self, ctx, *, city, country):
-
-        city_formatted = city.lower().replace(" ", "")
-        country_formatted = country.lower().replace(" ", "")
-
-        url = f"https://www.timeanddate.com/weather/{country_formatted}/{city_formatted}"
-
-
-        response = requests.get(url)
-
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        try:
-            temperature = soup.find("div", class_ = "h2").get_text(strip=True)
-            description = soup.find("div", class_ = "h2").find_next("p").get_text(strip=True)
-
-            #print(f"Weather in {city}:")
-            #print(f"Temperature: {temperature}")
-            #print(f"Condition: {description}")
-
-            await ctx.send(f"Weather in {city}:")
-            await ctx.send(f"Temperature: {temperature}")
-            await ctx.send(f"Condition: {description}")
-
-        except AttributeError:
-            await ctx.send("Please check the city name and try again!")
-
+    @commands.command(name="temp", help="Get the weather forecast for the next week for a specific city.")
+    async def weather(self, ctx, *, City):
+        
+        city = City.lower().replace(" ", "")
         weather_data = await self.get_weather_data(city)
         if 'list' in weather_data:
             await self.plot_temperature_graph(weather_data)
@@ -99,6 +75,7 @@ class WeatherCog(commands.Cog):
             await ctx.send(f"Couldn't fetch weather data for {city}. Please try again later.")
 
 ### Compare the temperature forecast for the next week between two cities
+
 
     async def plot_temperature_comparison(self, weather_data_city1, weather_data_city2, label1, label2):
         daily_temperatures_city1 = {}
@@ -156,3 +133,26 @@ class WeatherCog(commands.Cog):
         else:
             await ctx.send(f"Couldn't fetch weather data for one or both cities. Please try again later.")
 
+    @commands.command(name = "weather", help = "Get weather information in your location")
+    async def informations(self, ctx, *, location):
+        city, country = location.split()
+
+        city_formatted = city.lower().replace(" ","")
+        country_formatted = country.lower().replace(" ", "")
+
+        url = f"https://www.timeanddate.com/weather/{country_formatted}/{city_formatted}"
+
+
+        response = requests.get(url)
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        try:
+            temperature = soup.find("div", class_ = "h2").get_text(strip = True)
+            description = soup.find("div", class_ = "h2").find_next("p").get_text(strip = True)
+            await ctx.send(f"Weather in {city}:")
+            await ctx.send(f"Temperature: {temperature}")
+            await ctx.send(f"Condition: {description}")
+
+        except AttributeError:
+            await ctx.send("Please check the city name and try again!")
