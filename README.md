@@ -37,7 +37,8 @@ This function helps users to take notes, view notes, set reminders, and delete n
 
 ### Weather
 This function shows user informations about weather.
-+ weather: Get the weather forecast for the next week for a specific city.
++ weather: use this command for short weather's information in that day.
++ temp: Get the weather forecast for the next week for a specific city.
 + compare: Compare the temperature forecast for the next week between two cities.
 
 ### Formula 1
