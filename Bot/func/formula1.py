@@ -18,7 +18,7 @@ class F1Cog(commands.Cog):
             results = race['Results']
             winner = results[0]  # The winner is the first in the results
             driver = winner['Driver']
-            embed = discord.Embed(title=f"{race['raceName']} Winner", description=f"Season {race['season']}, Round {race['round']}", color=0x00ff00)
+            embed = discord.Embed(title=f"{race['raceName']} Winner", description=f"Season {race['season']}, Round {race['round']}", color=0xFFFF00)
             embed.add_field(name=f"{winner['position']}. {driver['givenName']} {driver['familyName']}", value=f"Team: {winner['Constructor']['name']}\nLaps: {winner['laps']}\nTime: {winner['Time']['time'] if 'Time' in winner else 'N/A'}", inline=False)
 
             await ctx.send(embed=embed)
@@ -37,7 +37,7 @@ class F1Cog(commands.Cog):
             for race in races:
                 race_date = datetime.strptime(race['date'], '%Y-%m-%d')
                 if race_date > now:
-                    embed = discord.Embed(title=f"Next Race: {race['raceName']}", description=f"Season {race['season']}, Round {race['round']}", color=0x00ff00)
+                    embed = discord.Embed(title=f"Next Race: {race['raceName']}", description=f"Season {race['season']}, Round {race['round']}", color=0xFFA500)
                     embed.add_field(name="Circuit", value=race['Circuit']['circuitName'], inline=False)
                     embed.add_field(name="Location", value=f"{race['Circuit']['Location']['locality']}, {race['Circuit']['Location']['country']}", inline=False)
                     embed.add_field(name="Date", value=race['date'], inline=False)
