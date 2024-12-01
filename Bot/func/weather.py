@@ -133,25 +133,21 @@ class WeatherCog(commands.Cog):
         else:
             await ctx.send(f"Couldn't fetch weather data for one or both cities. Please try again later.")
 
-    @commands.command(name = "weather", help = "Get weather information in your location")
+    @commands.command(name="weather", help="Get weather information in your location")
     async def informations(self, ctx, *, location):
-        city, country = location.split()
+        city_formatted = location.lower().replace(" ", "")
 
-        city_formatted = city.lower().replace(" ","")
-        country_formatted = country.lower().replace(" ", "")
+        weather_data = await self.get_weather_data(location)
+        if 'list' in weather_data:
+            current_weather = weather_data['list'][0]
+            temperature = current_weather['main']['temp']
+            description = current_weather['weather'][0]['description']
 
-        url = f"{TIMEANDDATE_BASE_URL}/{country_formatted}/{city_formatted}"
-
-        response = requests.get(url)
-
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        try:
-            temperature = soup.find("div", class_ = "h2").get_text(strip = True)
-            description = soup.find("div", class_ = "h2").find_next("p").get_text(strip = True)
-            await ctx.send(f"Weather in {city}:")
-            await ctx.send(f"Temperature: {temperature}")
-            await ctx.send(f"Condition: {description}")
-
-        except AttributeError:
-            await ctx.send("Please check the city name and try again!")
+            embed = discord.Embed(
+                title=f"Weather in {location}",
+                description=f"Temperature: {temperature}°C\nCondition: {description}",
+                color=discord.Color.blue()
+            )
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send(f"Couldn't fetch weather data for {location}. Please try again later.")
