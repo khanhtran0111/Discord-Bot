@@ -4,16 +4,24 @@ Hi, this is a template Discord bot using Python.
 
 To use this bot, you have to go to the [Discord Developer Portal](https://discord.com/developers/applications), create a new Bot, and get the Token code.
 
-Then, go to `env.py` in the **config** file, change `YOUR_TOKEN` to your Bot's token. After that step, you can run `main.py` and enjoy!
-
 Beside, to use weather commands, you should have your own API key.
 In this code, i use API key from [OpenWeather](https://openweathermap.org/), create your account and get API key. Then replace it in `weather.py`.
 
 You can change command prefix to whatever you want!
+
+All your api keys, https link will be saved in .env fle, so you have to create it by your self, then configure it.
+
+For example, this is `.env` file template:
+
 ```
-BOT_AUTHORIZE_TOKEN="YOUR_TOKEN"
-BOT_COMMAND_PREFIX="!"
+BOT_COMMAND_PREFIX=!
+BOT_AUTHORIZE_TOKEN=YOUR_BOT_TOKEN
+OPENWEATHERMAP_API_KEY=YOUR_OPENWEATHER_API
+OPENWEATHERMAP_BASE_URL=http://api.openweathermap.org/data/2.5
+TIMEANDDATE_BASE_URL=https://www.timeanddate.com/weather
 ```
+
+Then, if you want to create another function, use this `.env`, load it in env.py then you can run.
 
 You can add it to your community server or your own server to use it.
 
