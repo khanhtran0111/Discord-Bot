@@ -1,17 +1,16 @@
-# Discord-Bot
+# Discord Bot
 
-Hi, this is a template Discord bot using Python.
+This is a template for a Discord bot using Python.
 
-To use this bot, you have to go to the [Discord Developer Portal](https://discord.com/developers/applications), create a new Bot, and get the Token code.
+To use this bot, you need to visit the [Discord Developer Portal](https://discord.com/developers/applications), create a new bot, and obtain its token.
 
-Beside, to use weather commands, you should have your own API key.
-In this code, i use API key from [OpenWeather](https://openweathermap.org/), create your account and get API key. Then replace it in `weather.py`.
+Additionally, to use the weather-related commands, you will need your own API key. In this code, I use an API key from [OpenWeather](https://openweathermap.org/). Create an account there to get your API key, then replace the placeholder in `weather.py`.
 
-You can change command prefix to whatever you want!
+You can also customize the bot's command prefix to whatever you prefer!
 
-All your api keys, https link will be saved in .env fle, so you have to create it by your self, then configure it.
+All your API keys and URLs are stored in a `.env` file. You will need to create this file and configure it accordingly.
 
-For example, this is `.env` file template:
+### Example `.env` File
 
 ```
 BOT_COMMAND_PREFIX=!
@@ -21,39 +20,61 @@ OPENWEATHERMAP_BASE_URL=http://api.openweathermap.org/data/2.5
 TIMEANDDATE_BASE_URL=https://www.timeanddate.com/weather
 ```
 
-Then, if you want to create another function, use this `.env`, load it in env.py then you can run.
 
-You can add it to your community server or your own server to use it.
+Once your `.env` file is set up, load it in your code using `dotenv`, and you're good to go.
 
-## Functions of the bot
+You can add this bot to your community server or personal server for fun and functionality.
 
-My bot has some functions to support users in the server.
+---
 
-I'm updating my code every month, so maybe you'll see some new functions 🤔
+## Features of the Bot
 
-To show all commands, `!help` will help you to do that.
+This bot includes several features to support server members.  
+I update the code regularly, so you might see new functions added every month! 🤔
 
-### Note
+To view all commands, type `!help` in your server.
 
-This function helps users to take notes, view notes, set reminders, and delete notes.
-+ takenote: Take a note and assign it to a category. There are 4 categories: Red (highest priority level, needs to be done or executed immediately), Yellow (high priority level, important), Blue (medium priority level), and Green (low priority level).
-+ viewnotes: View all notes, and you can mark them as completed.
-+ deletenote: Delete a specific note from the note queue.
-+ settime: Set a reminder for a specific note.
-+ deleteallnotes: Delete all user's notes.
-+ Updating...
+---
 
-### Weather
-This function shows user informations about weather.
-+ weather: use this command for short weather's information in that day.
-+ temp: Get the weather forecast for the next week for a specific city.
-+ compare: Compare the temperature forecast for the next week between two cities.
+### **Notes Feature**
 
-### Formula 1
+This feature allows users to take notes, view them, set reminders, and manage notes efficiently.  
+Available commands include:
 
-This function helps users search for information about any category in Formula 1. (Forza Ferrari)
-+ racewinner: Get the winner of the latest race.
-+ calendar: Get the full calendar of the next race.
-+ standings: Get the current driver standings.
-+ constructor: Get the current constructor standings.
-+ search: Get information about a driver in a specific season.
+- **`!takenote`**: Take a note and assign it to a category. There are 4 categories:  
+  - **Red**: Highest priority, requires immediate action.  
+  - **Yellow**: High priority, important tasks.  
+  - **Blue**: Medium priority tasks.  
+  - **Green**: Low priority tasks.
+
+- **`!viewnotes`**: View all notes and mark them as completed.  
+- **`!deletenote`**: Delete a specific note from your list.  
+- **`!settime`**: Set a reminder for a specific note.  
+- **`!deleteallnotes`**: Delete all your notes.  
+- More features coming soon!
+
+---
+
+### **Weather Feature**
+
+This feature provides users with detailed weather information.  
+Available commands include:
+
+- **`!weather`**: Get a quick weather summary for the day in a specific city.  
+- **`!temp`**: Retrieve the weather forecast for the next week for a specific city.  
+- **`!compare`**: Compare the weekly temperature forecasts of two cities.
+
+---
+
+### **Formula 1 Feature**
+
+This feature allows users to explore various categories of Formula 1 information. (*Forza Ferrari!*)  
+Available commands include:
+
+- **`!racewinner`**: Get the winner of the latest F1 race.  
+- **`!calendar`**: View the schedule for the next race.  
+- **`!standings`**: Check the current driver standings.  
+- **`!constructor`**: View the current constructor standings.  
+- **`!search`**: Find information about a specific driver in a given season.
+
+---
