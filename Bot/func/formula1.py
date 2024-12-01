@@ -2,15 +2,20 @@ import discord
 from discord.ext import commands
 import requests
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ERGAST_API_BASE_URL = os.getenv('ERGAST_API_BASE_URL')
 
 class F1Cog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
 
-    @commands.command(name ="racewinner", help="Get the winners of the lastest race")
+    @commands.command(name="racewinner", help="Get the winners of the latest race")
     async def race_winner(self, ctx):
-        response = requests.get('http://ergast.com/api/f1/current/last/results.json')
+        response = requests.get(f'{ERGAST_API_BASE_URL}/current/last/results.json')
         data = response.json()
 
         if response.status_code == 200 and data['MRData']['RaceTable']['Races']:
@@ -25,9 +30,9 @@ class F1Cog(commands.Cog):
         else:
             await ctx.send('No race data found for the latest race.')
 
-    @commands.command(name ="calendar", help ="Get full calendar of the next race")
+    @commands.command(name="calendar", help="Get full calendar of the next race")
     async def next_race(self, ctx):
-        response = requests.get('http://ergast.com/api/f1/current.json')
+        response = requests.get(f'{ERGAST_API_BASE_URL}/current.json')
         data = response.json()
 
         if response.status_code == 200 and data['MRData']['RaceTable']['Races']:
@@ -48,9 +53,9 @@ class F1Cog(commands.Cog):
         else:
             await ctx.send("**No race data found for the current season.**")
 
-    @commands.command(name ="standings", help ="Get the current driver standings")
+    @commands.command(name="standings", help="Get the current driver standings")
     async def standings(self, ctx):
-        response = requests.get('http://ergast.com/api/f1/current/driverStandings.json')
+        response = requests.get(f'{ERGAST_API_BASE_URL}/current/driverStandings.json')
         data = response.json()
 
         if response.status_code == 200 and data['MRData']['StandingsTable']['StandingsLists']:
@@ -65,9 +70,9 @@ class F1Cog(commands.Cog):
         else:
             await ctx.send("**No driver standings found for the current season.**")
 
-    @commands.command(name ="constructor", help ="Get the current constructor standings")
+    @commands.command(name="constructor", help="Get the current constructor standings")
     async def constructor(self, ctx):
-        response = requests.get('http://ergast.com/api/f1/current/constructorStandings.json')
+        response = requests.get(f'{ERGAST_API_BASE_URL}/current/constructorStandings.json')
         data = response.json()
 
         if response.status_code == 200 and data['MRData']['StandingsTable']['StandingsLists']:
@@ -82,9 +87,9 @@ class F1Cog(commands.Cog):
         else:
             await ctx.send("**No constructor standings found for the current season.**")
 
-    @commands.command(name ="search", help = "search information about a driver in a specific season")
+    @commands.command(name="search", help="Search information about a driver in a specific season")
     async def search(self, ctx, name: str, season: str):
-        response = requests.get(f'http://ergast.com/api/f1/{season}/drivers/{name}/driverStandings.json')
+        response = requests.get(f'{ERGAST_API_BASE_URL}/{season}/drivers/{name}/driverStandings.json')
         data = response.json()
 
         if data['MRData']['StandingsTable']['StandingsLists']:

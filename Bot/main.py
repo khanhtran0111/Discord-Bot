@@ -1,7 +1,14 @@
 import asyncio
-from library import *
 import os
+from dotenv import load_dotenv
+import discord
+from discord.ext import commands
+from library import *
 
+load_dotenv()
+
+BOT_COMMAND_PREFIX = os.getenv('BOT_COMMAND_PREFIX')
+BOT_AUTHORIZE_TOKEN = os.getenv('BOT_AUTHORIZE_TOKEN')
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -17,9 +24,13 @@ async def setup_command(bot, config_list):
         config = config_name(bot)
         command_list = [_.name for _ in config.get_commands()]
         for command_name in command_list:
-            if (check_exist_command(bot, command_name) == True): 
-                exit("Command: {COMMAND} is exists !!!".format(COMMAND=command_name))
+            if check_exist_command(bot, command_name):
+                exit(f"Command: {command_name} already exists!")
         await bot.add_cog(config)
+
+@bot.event
+async def on_ready():
+    print("Bot is running!")
 
 @bot.event
 async def on_message(message):
@@ -33,14 +44,12 @@ async def on_message(message):
             await message.channel.send(f"Command '{command_name}' does not exist.")
             return
 
-    await bot.process_commands(message) 
+    await bot.process_commands(message)
 
 async def main():
-    await setup_command(bot, BOT_CONFIG_LIST)  
-    await bot.start(BOT_AUTHORIZE_TOKEN) 
+    # Add your custom cogs here
+    await setup_command(bot, [WeatherCog, F1Cog, NoteCog])
+    await bot.start(BOT_AUTHORIZE_TOKEN)
 
 if __name__ == "__main__":
-    import asyncio
-    print("Bot Started !!!")
-    #print("Current working directory:", os.getcwd())
-    asyncio.run(main()) 
+    asyncio.run(main())

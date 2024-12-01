@@ -5,8 +5,14 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
+import os
+from dotenv import load_dotenv
 
-API_KEY = "07dadcadae720c1741c90981cccee192"
+load_dotenv()
+
+OPENWEATHERMAP_API_KEY = os.getenv('OPENWEATHERMAP_API_KEY')
+OPENWEATHERMAP_BASE_URL = os.getenv('OPENWEATHERMAP_BASE_URL')
+TIMEANDDATE_BASE_URL = os.getenv('TIMEANDDATE_BASE_URL')
 
 class WeatherCog(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +20,7 @@ class WeatherCog(commands.Cog):
 
     async def get_weather_data(self, city):
         async with aiohttp.ClientSession() as session:
-            url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
+            url = f"{OPENWEATHERMAP_BASE_URL}/forecast?q={city}&appid={OPENWEATHERMAP_API_KEY}&units=metric"
             async with session.get(url) as response:
                 data = await response.json()
                 return data
@@ -38,7 +44,6 @@ class WeatherCog(commands.Cog):
         plt.xlabel('Date')
         plt.ylabel('Temperature (°C)')
         plt.yticks([0, 10, 20, 30, 40, 50])
-        #plt.xticks(rotation=45)
         plt.xticks(dates, [date.strftime('%d/%m/%Y') for date in dates], rotation=45)
         plt.tight_layout()
         plt.grid(True)
@@ -46,12 +51,10 @@ class WeatherCog(commands.Cog):
 
     @commands.command(name="temp", help="Get the weather forecast for the next week for a specific city.")
     async def weather(self, ctx, *, City):
-        
         city = City.lower().replace(" ", "")
         weather_data = await self.get_weather_data(city)
         if 'list' in weather_data:
             await self.plot_temperature_graph(weather_data)
-            #await ctx.send(f"Weather forecast for {city} for the next week:")
             forecast = ""
             daily_temperatures = {}
             for entry in weather_data['list']:
@@ -73,9 +76,6 @@ class WeatherCog(commands.Cog):
             plt.clf()
         else:
             await ctx.send(f"Couldn't fetch weather data for {city}. Please try again later.")
-
-### Compare the temperature forecast for the next week between two cities
-
 
     async def plot_temperature_comparison(self, weather_data_city1, weather_data_city2, label1, label2):
         daily_temperatures_city1 = {}
@@ -140,8 +140,7 @@ class WeatherCog(commands.Cog):
         city_formatted = city.lower().replace(" ","")
         country_formatted = country.lower().replace(" ", "")
 
-        url = f"https://www.timeanddate.com/weather/{country_formatted}/{city_formatted}"
-
+        url = f"{TIMEANDDATE_BASE_URL}/{country_formatted}/{city_formatted}"
 
         response = requests.get(url)
 
