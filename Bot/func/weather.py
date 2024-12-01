@@ -141,13 +141,23 @@ class WeatherCog(commands.Cog):
         if 'list' in weather_data:
             current_weather = weather_data['list'][0]
             temperature = current_weather['main']['temp']
+            feels_like = current_weather['main']['feels_like']
+            humidity = current_weather['main']['humidity']
+            wind_speed = current_weather['wind']['speed']
             description = current_weather['weather'][0]['description']
 
             embed = discord.Embed(
-                title=f"Weather in {location}",
-                description=f"Temperature: {temperature}°C\nCondition: {description}",
+                title=f"Weather in {location.capitalize()}",
+                description=(
+                    f"**Temperature**: {temperature}°C\n"
+                    f"**Feels Like**: {feels_like}°C\n"
+                    f"**Condition**: {description.capitalize()}\n"
+                    f"**Humidity**: {humidity}%\n"
+                    f"**Wind Speed**: {wind_speed} m/s"
+                ),
                 color=discord.Color.blue()
             )
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"Couldn't fetch weather data for {location}. Please try again later.")
+
