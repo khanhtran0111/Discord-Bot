@@ -48,7 +48,7 @@ async def on_message(message):
 
 async def main():
     # Add your custom cogs here
-    await setup_command(bot, [WeatherCog, F1Cog, NoteCog, PingCog, GeminiCog])
+    await setup_command(bot, [WeatherCog, F1Cog, NoteCog, PingCog, AiChat])
     await bot.start(BOT_AUTHORIZE_TOKEN)
 
 if __name__ == "__main__":
