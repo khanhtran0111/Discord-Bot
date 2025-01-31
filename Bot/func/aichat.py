@@ -19,19 +19,18 @@ class AiChat(commands.Cog):
                 await ctx.send("API key is not set. Please configure the .env file properly.")
                 return
 
-            url = "https://actual-gemini-api-endpoint.com/v1/chat"
+            url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
 
-            headers = {
-                "Authorization": f"Bearer {GEMINI_API_KEY}",
-                "Content-Type": "application/json"
+            headers = {"Content-Type": "application/json"}
+            payload = {
+                "contents": [{"parts": [{"text": question}]}]
             }
-            payload = {"prompt": question}
 
             response = requests.post(url, json=payload, headers=headers)
 
             if response.status_code == 200:
                 data = response.json()
-                answer = data.get("content", "I couldn't find an answer.")
+                answer = data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "I couldn't find an answer.")
                 await ctx.send(f"**Question:** {question}\n**Answer:** {answer}")
             else:
                 error_message = response.json().get("error", response.text)
